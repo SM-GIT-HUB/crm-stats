@@ -13,7 +13,7 @@ const ToggleSwitch = () => {
   console.log(time);
 
   return (
-    <div className="flex items-center justify-center rounded-lg shadow-lg">
+    <div className="flex items-center justify-center rounded-lg shadow-lg animate-fade-in">
       {['Week', 'Month', 'Year'].map((option, index) => (
         <button
           key={option}

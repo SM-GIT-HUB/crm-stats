@@ -1,18 +1,28 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts"
+import useTime from "../zustand/useTime"
+import axios from "axios"
+import { useEffect, useState } from "react"
 
 function CategoryDistributionChart() {
-    const categoryData = [
-        { name: "RAM", value: 4500 },
-        { name: "SSD", value: 3200 },
-        { name: "CPU", value: 2800 },
-        { name: "GPU", value: 2100 },
-        { name: "HDD", value: 1900 },
-    ]
+    const [categoryData, setcategoryData] = useState([]);
+    const { time } = useTime();
+
+    async function getSalesData()
+    {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/${time}`);
+        const data = response.data;
+
+        setcategoryData(data);
+    }
+
+    useEffect(() => {
+        getSalesData();
+    }, [time])
 
     const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
   return (
-    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700">
+    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700 animate-fade-in">
         
         <h2 className="text-lg font-medium mb-4 text-gray-100">
             Category Distribution

@@ -1,23 +1,26 @@
+import { useEffect, useState } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import useTime from "../zustand/useTime"
+import axios from "axios"
 
 function SalesOverviewChart() {
-    const salesData = [
-        { name: "Sep", sales: 5100 },
-        { name: "Oct", sales: 4600 },
-        { name: "Nov", sales: 5400 },
-        { name: "Dec", sales: 7200 },
-        { name: "Jan", sales: 6100 },
-        { name: "Feb", sales: 5900 },
-        { name: "Mar", sales: 6800 },
-        { name: "Apr", sales: 6300 },
-        { name: "May", sales: 7100 },
-        { name: "Jun", sales: 7500 },
-        { name: "Jul", sales: 4200 },
-        { name: "Aug", sales: 3800 },
-    ]
+    const [salesData, setSalesData] = useState([]);
+    const { time } = useTime();
+
+    async function getSalesData()
+    {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/overview/${time}`);
+        const data = response.data;
+
+        setSalesData(data);
+    }
+
+    useEffect(() => {
+        getSalesData();
+    }, [time])
 
   return (
-    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700">
+    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700 animate-fade-in">
         
         <h2 className="text-lg font-medium mb-4 text-gray-100">
             Sales Overview

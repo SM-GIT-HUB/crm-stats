@@ -1,17 +1,28 @@
+import axios from "axios";
+import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts"
+import useTime from "../zustand/useTime"
 
 function SalesChannelChart() {
+  const [salesChannelData, setsalesChannelData] = useState([]);
+    const { time } = useTime();
+
+    async function getSalesData()
+    {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/channel/${time}`);
+        const data = response.data;
+
+        setsalesChannelData(data);
+    }
+
+    useEffect(() => {
+        getSalesData();
+    }, [time])
+
   const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
 
-  const SALES_CHANNEL_DATA = [
-    { name: "Website", value: 45600 },
-    { name: "Mobile App", value: 38200 },
-    { name: "Marketplace", value: 29800 },
-    { name: "Social Media", value: 18700 },
-  ]
-
   return (
-    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700 lg:col-span-2">
+    <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700 lg:col-span-2 animate-fade-in">
 
       <h2 className="text-lg font-medium mb-4 text-gray-100">
         Sales by Channel
@@ -20,7 +31,7 @@ function SalesChannelChart() {
       <div className="h-[280px]">
         <ResponsiveContainer>
 
-          <BarChart data={SALES_CHANNEL_DATA} >
+          <BarChart data={salesChannelData} >
 
             <CartesianGrid strokeDasharray='3 3' stroke="#4B5563" />
             <XAxis dataKey='name' stroke="#9CA3AF"/>
@@ -37,7 +48,7 @@ function SalesChannelChart() {
 
             <Bar dataKey={'value'} fill="#8884d8">
                {
-                SALES_CHANNEL_DATA.map((entry, idx) => (
+                salesChannelData.map((entry, idx) => (
                   <Cell key={idx} fill={COLORS[idx]}/>
                 ))
                }
