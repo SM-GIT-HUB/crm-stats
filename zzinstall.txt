@@ -1,0 +1,16 @@
+--frontend
+
+1. npm create vite@latest . (
+react, js
+)
+
+2. npm i
+
+3. npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+4. npm i react-router-dom react-icons
+
+5. npm i recharts
+
+6. npm i zustand axios
