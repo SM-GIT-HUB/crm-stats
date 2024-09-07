@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell } from "recharts"
 import useTime from "../zustand/useTime"
+import toast from "react-hot-toast"
 
 function SalesChannelChart() {
   const [salesChannelData, setsalesChannelData] = useState([]);
@@ -9,10 +10,17 @@ function SalesChannelChart() {
 
     async function getSalesData()
     {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/channel/${time}`);
-      const data = response.data;
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/channel/${time}`);
+        const data = response.data;
 
-      setsalesChannelData(data);
+        setsalesChannelData(data);
+        toast.dismiss();
+      }
+      catch {
+        toast.dismiss();
+        toast.error("Couldn't get data");
+      }
     }
 
     useEffect(() => {

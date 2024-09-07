@@ -9,6 +9,7 @@ import SalesPage from "./pages/SalesPage"
 import OrdersPage from "./pages/OrdersPage"
 import AnalyticsPage from "./pages/AnalyticsPage"
 import SettingsPage from "./pages/SettingsPage"
+import { Toaster } from "react-hot-toast"
 
 function App() {
   
@@ -27,6 +28,8 @@ function App() {
           <Route path="/analytics" element={<AnalyticsPage/>}/>
           <Route path="/settings" element={<SettingsPage/>}/>
         </Routes>
+
+        <Toaster />
       </div>
     </>
   )

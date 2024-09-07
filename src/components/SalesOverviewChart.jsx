@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import useTime from "../zustand/useTime"
 import axios from "axios"
+import toast from "react-hot-toast"
 
 function SalesOverviewChart() {
     const [salesData, setSalesData] = useState([]);
@@ -9,10 +10,17 @@ function SalesOverviewChart() {
 
     async function getSalesData()
     {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/overview/${time}`);
-        const data = response.data;
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/overview/${time}`);
+            const data = response.data;
 
-        setSalesData(data);
+            setSalesData(data);
+            toast.dismiss();
+        }
+        catch {
+            toast.dismiss();
+            toast.error("Couldn't get data");
+        }
     }
 
     useEffect(() => {

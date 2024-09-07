@@ -2,6 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recha
 import useTime from "../zustand/useTime"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 function CategoryDistributionChart() {
     const [categoryData, setcategoryData] = useState([]);
@@ -9,10 +10,17 @@ function CategoryDistributionChart() {
 
     async function getSalesData()
     {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/${time}`);
-        const data = response.data;
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/category/${time}`);
+            const data = response.data;
 
-        setcategoryData(data);
+            setcategoryData(data);
+            toast.dismiss();
+        }
+        catch {
+            toast.dismiss();
+            toast.error("Couldn't get data");
+        }
     }
 
     useEffect(() => {
