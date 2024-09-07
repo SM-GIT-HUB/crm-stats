@@ -20,6 +20,23 @@ function CategoryDistributionChart() {
     }, [time])
 
     const COLORS = ["#6366F1", "#8B5CF6", "#EC4899", "#10B981", "#F59E0B"];
+    const [fontSize, setFontSize] = useState(16);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 640) {
+                setFontSize(10);
+            } else {
+                setFontSize(16);
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
   return (
     <div className="bg-gray-800 shadow-lg rounded-[12px] p-4 border border-gray-700 animate-fade-in">
@@ -35,10 +52,11 @@ function CategoryDistributionChart() {
                     cx={'50%'}
                     cy={'50%'}
                     labelLine={false}
-                    outerRadius={80}
+                    outerRadius={`80`}
                     fill='#8884d8'
                     dataKey='value'
                     label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    fontSize={fontSize}
                     >
                         {
                             categoryData.map((entry, idx) => (
