@@ -3,14 +3,12 @@ import useTime from '../zustand/useTime'
 
 const ToggleSwitch = () => {
   const [selected, setSelected] = useState('Year');
-  const { time, setTime } = useTime();
+  const { setTime } = useTime();
 
   const handleToggle = (option) => {
     setSelected(option);
     setTime(option.toLowerCase());
   };
-
-  console.log(time);
 
   return (
     <div className="flex items-center justify-center rounded-lg shadow-lg animate-fade-in">

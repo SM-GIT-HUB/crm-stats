@@ -9,10 +9,10 @@ function SalesChannelChart() {
 
     async function getSalesData()
     {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/channel/${time}`);
-        const data = response.data;
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/channel/${time}`);
+      const data = response.data;
 
-        setsalesChannelData(data);
+      setsalesChannelData(data);
     }
 
     useEffect(() => {
